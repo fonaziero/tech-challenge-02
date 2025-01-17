@@ -1,0 +1,7 @@
+declare module 'host/Button'
+declare module 'host/CircleButton'
+declare module 'host/Header'
+declare module 'host/Input'
+declare module 'host/Select'
+declare module 'host/Menu'
+declare module 'host/Modal'

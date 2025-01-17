@@ -3,7 +3,7 @@ import BannerModal from '../../../../assets/Ilustração Login.png';
 import Modal from "../../../UI/modal";
 import FormInput from "../../../UI/inputs/input";
 import { handleRequest } from "../../../../utils/fetch-api";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterModalProps {
     isOpen: boolean;

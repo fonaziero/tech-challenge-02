@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from '@/styles/dropdown-select.module.scss';
+import '../../../../styles/dropdown-select.module.css';
 
 type Option = {
     value: string;
@@ -30,12 +30,12 @@ export default function DropdownSelect({ options, placeholder, color = 'green', 
             <div className="relative">
                 <button
                     type="button"
-                    className={`appearance-none w-full border rounded-md h-12 lg:h-[48px] px-3 text-darkBlue font-regular bg-white focus:outline-none flex items-center justify-between ${styles['custom-select-button']} border-${color}`}
+                    className={`appearance-none w-full border rounded-md h-12 lg:h-[48px] px-3 text-darkBlue font-regular bg-white focus:outline-none flex items-center justify-between ${'custom-select-button'} border-${color}`}
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <span className="w-full text-left text-xs sm:text-sm lg:text-base">{displayText}</span>
                     <span
-                        className={`${styles['custom-select-icon']}  ${isOpen ? styles['rotate'] : ''} ${styles['custom-select-triangle']} borderTop-${color}`}
+                        className={`${'custom-select-icon'}  ${isOpen ? 'rotate' : ''} ${'custom-select-triangle'} borderTop-${color}`}
                     ></span>
                 </button>
 

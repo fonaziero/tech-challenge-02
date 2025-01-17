@@ -1,0 +1,39 @@
+.custom-select-button {
+  position: relative;
+  z-index: 10;
+}
+
+.custom-select-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.custom-select-icon.rotate {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.custom-select-triangle {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid;
+}
+
+/* Estilos para .borderTop-* */
+.borderTop-green {
+  border-top-color: var(--green);
+}
+
+.borderTop-red {
+  border-top-color: var(--red);
+}
+
+.borderTop-blue {
+  border-top-color: var(--blue);
+}
+
+.borderTop-darkBlue {
+  border-top-color: var(--darkBlue) !important;
+}

@@ -51,7 +51,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
                         'Authorization': `Bearer ${data.result.token}`,
                     },
                 })
-
+                console.log('userInfo')
+                console.log(userInfo)
             }
             // else {
                 localStorage.setItem('user', JSON.stringify({

@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 type InfoItemsProps = {
     title: string;
     description: string;

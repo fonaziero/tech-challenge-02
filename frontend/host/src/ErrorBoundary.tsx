@@ -1,4 +1,5 @@
 import React from 'react';
+import Container from './components/home/container';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -27,7 +28,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       // Interface de fallback para quando um erro for capturado.
-      return <h1>Algo deu errado ao carregar este componente.</h1>;
+      return (
+        <Container>
+          <div className="flex justify-center items-center"></div>
+          <h1 className='text-white'>Algo deu errado ao carregar este componente.</h1>
+        </Container>
+      );
     }
 
     return this.props.children;
