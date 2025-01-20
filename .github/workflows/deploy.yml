@@ -1,4 +1,4 @@
-name: Build and Deploy Monorepo
+name: Deploy Docker Application to AWS
 
 on:
   push:
@@ -6,44 +6,36 @@ on:
       - main
 
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout do código
-      - name: Checkout code
+      # 1. Checkout do código
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Configuração de credenciais AWS
+      # 2. Configurar o AWS CLI
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 # Altere para a região correta
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      # Configurar Docker
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      # 3. Instalar o SSH Client
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      # Build da aplicação completa usando Docker Compose
-      - name: Build application using Docker Compose
-        run: docker-compose build
-
-      # Construir e copiar os microfrontends para o S3
-      - name: Build and deploy Microfrontend: Host
+      # 4. Copiar arquivos para o EC2
+      - name: Deploy to EC2
         run: |
-          docker-compose up -d host
-          aws s3 sync ./frontend/host/dist s3://your-bucket-host --delete
-
-      - name: Build and deploy Microfrontend: Dashboard
-        run: |
-          docker-compose up -d dashboard
-          aws s3 sync ./frontend/dashboard/dist s3://your-bucket-dashboard --delete
-
-      # (Opcional) Invalidação do CloudFront (para cache global, se necessário)
-      - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+            sudo yum update -y
+            sudo yum install -y docker
+            sudo service docker start
+            sudo docker system prune -f
+            docker-compose down || true
+            docker-compose up -d --build
+          EOF
