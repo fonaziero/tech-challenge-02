@@ -1,0 +1,37 @@
+microfrontend-project/
+├── host/
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── components/
+│   │   │   ├── Sidebar.tsx
+│   │   │   ├── Header.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── store/
+│   │   │   └── globalState.ts
+│   │   ├── pages/
+│   │   │   ├── Home.tsx
+│   │   │   └── Dashboard.tsx
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+├── login/
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── components/
+│   │   │   └── LoginForm.tsx
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+├── dashboard/
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── components/
+│   │   │   ├── Balance.tsx
+│   │   │   ├── TransactionForm.tsx
+│   │   │   └── TransactionList.tsx
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...

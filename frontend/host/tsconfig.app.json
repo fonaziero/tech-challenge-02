@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "types": ["node"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    /* Resolva os módulos corretamente */
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    /* Base e Alias */
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": [
+        "../shared/*"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "../shared"
+, "../dashboard/src/utils/formatters.ts"  ]
+}

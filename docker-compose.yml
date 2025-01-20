@@ -1,0 +1,54 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGO_URI=mongodb://root:123@database:27017/bytebank?authSource=admin
+    depends_on:
+      - database
+
+  host:
+    build:
+      context: ./frontend
+      dockerfile: host/Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend/host:/app/host
+      - ./frontend/shared:/app/shared
+
+  dashboard:
+    build:
+      context: ./frontend
+      dockerfile: dashboard/Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./frontend/dashboard:/app/dashboard
+      - ./frontend/shared:/app/shared
+
+  shared:
+    image: node:20
+    volumes:
+      - ./frontend/shared:/app/shared
+
+  database:
+    image: mongo:5.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123
+
+volumes:
+  mongo_data:

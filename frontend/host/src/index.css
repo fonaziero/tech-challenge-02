@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Variáveis */
+:root {
+  /* Cores */
+  --dark-blue: #004D61;
+  --green-gradient-start: #004D61;
+  --green-gradient-end: #FFFFFF;
+  --red: #FF5031;
+  --green: #47A138;
+  --light-green: #E4EDE3;
+  --gray: #767676;
+  --light-gray: #DEE9EA;
+  --card-gray: #CBCBCB;
+  --card-date-gray: #8B8B8B;
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* Fontes */
+  --font-family-inter: 'Inter', sans-serif;
+  --font-size-xl: 31px;
+  --line-height-xl: 37.52px;
+  --font-size-lg: 25px;
+  --line-height-lg: 30px;
+  --font-size-md: 20px;
+  --line-height-md: 24px;
+  --font-size-md-2: 18px;
+  --line-height-md-2: 21.78px;
+  --font-size-sm: 16px;
+  --line-height-sm: 19.2px;
+  --font-size-xs: 13px;
+  --line-height-xs: 15.6px;
+  --font-weight-regular: 400;
+
+}
+
+body, #root {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family-inter);
+}
+
+.logo-white {
+  fill: var(--white);
+}
+
+.logo-green {
+  fill: var(--green);
+}
