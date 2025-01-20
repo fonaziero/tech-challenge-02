@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import CreditCard from "@shared/images/Ilustração2.png";
+import CreditCard from "../../../../shared/images/card.png";
 import { User } from '@shared/interfaces/user';
 import { options } from '../../types/transactionType';
+import { handleRequest } from '@shared/utils/fetch-api';
 
 const ButtonModule = await import('host/Button');
 const Button = ButtonModule.default;
@@ -51,17 +52,16 @@ export default function TransactionForm({ user, updateUser, onTransactionSubmit 
     const transactionValue = parseFloat(value);
     if (user) {
       try {
-        const response = await fetch('/api/dashboard/transactionalHistory', {
+        const response = await handleRequest('account/transaction', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify({
-            userId: user.id,
+            accountId: user.accountId,
             value: transactionValue,
-            type: transactionType,
-            method: selectedMethod,
-            date: new Date().toISOString(),
+            type: 'Debit',
           }),
         });
 
@@ -69,19 +69,19 @@ export default function TransactionForm({ user, updateUser, onTransactionSubmit 
           throw new Error('Falha ao adicionar a transação');
         }
 
-        const newBalance = user.balance + transactionValue;
+        const newBalance = user.balance - transactionValue;
 
-        const patchResponse = await fetch(`/api/dashboard/user?userId=${user.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ balance: newBalance }),
-        });
+        // const patchResponse = await fetch(`/api/dashboard/user?userId=${user.id}`, {
+        //   method: 'PATCH',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ balance: newBalance }),
+        // });
 
-        if (!patchResponse.ok) {
-          throw new Error('Falha ao atualizar o saldo do usuário');
-        }
+        // if (!patchResponse.ok) {
+        //   throw new Error('Falha ao atualizar o saldo do usuário');
+        // }
 
         const updatedUser = {
           ...user,

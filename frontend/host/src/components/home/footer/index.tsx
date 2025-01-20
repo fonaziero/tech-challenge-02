@@ -1,4 +1,4 @@
-import { ReactComponent as Logo } from '../../../assets/Logo.svg';
+import { ReactComponent as Logo } from '@shared/images/Logo.svg';
 
 const Footer = () => {
     return (

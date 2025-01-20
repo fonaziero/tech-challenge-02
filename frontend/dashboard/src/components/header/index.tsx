@@ -11,9 +11,6 @@ import { Section } from "../../types/section";
 const HeaderModule = await import('host/Header');
 const Header = HeaderModule.default;
 
-console.log('Header');
-console.log(Header);
-
 type DashboardHeaderProps = {
   activeSection: Section;
   setActiveSection: Dispatch<SetStateAction<Section>>;

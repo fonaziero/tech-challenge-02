@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Sling as Hamburger } from 'hamburger-react';
-import { ReactComponent as Logo } from '../../../assets/Logo.svg';
+import { ReactComponent as Logo } from '@shared/images/Logo.svg';
 import Button from '../../UI/buttons/button/button';
 import RegisterModal from '../modal/register';
 import LoginModal from '../modal/login';

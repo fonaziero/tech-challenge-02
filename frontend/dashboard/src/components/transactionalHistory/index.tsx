@@ -4,14 +4,17 @@ import History from './history';
 import { Transaction } from '@shared/interfaces/transaction';
 import { handleFetchError } from '../../utils/formatters';
 import { handleScroll } from '../../utils/scroll';
+import { User } from '@shared/interfaces/user';
+import { handleRequest } from '@shared/utils/fetch-api';
+import { formatDate, getMonth } from '@shared/utils/date';
 
 interface TransactionHistoryProps {
+  user: User;
   updateHistoryTrigger: boolean;
   updateUser: () => void;
 }
 
-export default function TransactionHistory({ updateHistoryTrigger, updateUser }: TransactionHistoryProps) {
-
+export default function TransactionHistory({ user, updateHistoryTrigger, updateUser }: TransactionHistoryProps) {
   const [history, setHistory] = useState<Transaction[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,19 +36,32 @@ export default function TransactionHistory({ updateHistoryTrigger, updateUser }:
   const loadMoreHistory = async (newOffset: number) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/dashboard/transactionalHistory?offset=${newOffset}&limit=${LIMIT}`);
+      const response = await handleRequest(`account/${user.accountId}/statement`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
       if (!response.ok) {
         throw new Error('Falha ao buscar o extrato');
       }
-      let newHistory = await response.json();
-      if (newHistory.length < LIMIT) {
+
+      const data = await response.json();
+      const allTransactions = data.result.transactions;
+      const paginatedTransactions = allTransactions.slice(newOffset, newOffset + LIMIT);
+
+      if (paginatedTransactions.length < LIMIT) {
         setHasMore(false);
       }
-      setHistory((prevHistory) => {
-        const existingIds = new Set(prevHistory.map((item) => item.id));
-        const filteredHistory = newHistory.filter((item: Transaction) => !existingIds.has(item.id));
-        return [...prevHistory, ...filteredHistory];
-      });
+
+      setHistory((prevHistory) => [
+        ...prevHistory,
+        ...paginatedTransactions.filter(
+          (transaction: any) => !prevHistory.some((item) => item.id === transaction.id)
+        ),
+      ]);
     } catch (error) {
       handleFetchError(error);
     } finally {
@@ -76,7 +92,11 @@ export default function TransactionHistory({ updateHistoryTrigger, updateUser }:
           {history.length > 0 ? (
             history.map((item) => (
               <li key={item.id}>
-                <History {...item} />
+                <History
+                  {...item}
+                  date={formatDate(item.date)} 
+                  month={getMonth(item.date)}
+                />
               </li>
             ))
           ) : (

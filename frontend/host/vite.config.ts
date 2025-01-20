@@ -3,12 +3,19 @@ import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
 import svgr from '@svgr/rollup';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '../shared/enviroments/.env') });
 
 export default defineConfig({
-  base: '/',
   resolve: {
     alias: {
       '@shared': path.resolve(__dirname, '../shared'),
+    },
+  },
+  define: {
+    'import.meta.env': {
+      ...process.env,
     },
   },
   plugins: [
@@ -18,7 +25,7 @@ export default defineConfig({
       name: 'host',
       filename: 'remoteEntry.js',
       remotes: {
-        dashboard: 'http://localhost:3002/assets/assets/remoteEntry.js',
+        dashboard: 'http://localhost:3002/assets/remoteEntry.js',
       },
       exposes: {
         './Button': './src/components/UI/buttons/button/button',
@@ -28,10 +35,13 @@ export default defineConfig({
         './Select': './src/components/UI/inputs/select/index',
         './Menu': './src/components/UI/menu/index',
         './Modal': './src/components/UI/modal/index',
+        './SearchBar': './src/components/UI/inputs/searchBar/index',
+        './NotFound': './src/not-found',
       },
       shared: [
         'react',
-        'react-dom'
+        'react-dom',
+        'react-router-dom',
       ],
     }),
   ],

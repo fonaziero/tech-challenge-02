@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import BannerModal from '../../../../assets/Ilustração Login.png';
+import BannerModal from '@shared/images/Ilustração Login.png';
 import Modal from "../../../UI/modal";
 import FormInput from "../../../UI/inputs/input";
-import { handleRequest } from "../../../../utils/fetch-api";
+import { handleRequest } from "@shared/utils/fetch-api";
 import { useNavigate } from "react-router-dom";
 
 interface RegisterModalProps {
@@ -54,7 +54,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                 });
 
                 if (response.ok) {
-                    const { result } = await response.json();
+                    // const { result } = await response.json();
                     const loginResponse = await handleRequest('user/auth', {
                         method: 'POST',
                         headers: {
@@ -62,20 +62,31 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                         },
                         body: JSON.stringify({ email, password }),
                     });
+                    
+                    const data = await loginResponse.json();
 
-                    if (loginResponse.ok) {
-                        const resultlogin = await loginResponse.json();
+                    if (!response.ok) {
+                        console.log(data.message || 'Erro ao fazer login');
+                    }
+                    if (data.result.token) {
+                        const userInfo = await handleRequest('account', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${data.result.token}`,
+                            },
+                        })
+                        const dataInfo = await userInfo.json();
+
                         localStorage.setItem('user', JSON.stringify({
-                            id: result.id,
-                            username: result.username,
-                            email: result.email,
-                            token: resultlogin.result.token,
+                            id: dataInfo.result.account[0].userId,
+                            accountId: dataInfo.result.account[0].id,
+                            name: dataInfo.result.cards[0].name,
+                            email: email,
+                            balance: +dataInfo.result.cards[0].cvc,
+                            token: data.result.token
                         }));
-
                         onClose();
                         navigate('/dashboard');
-                    } else {
-                        console.error('Erro no login');
                     }
                 } else {
                     console.error('Erro no registro');

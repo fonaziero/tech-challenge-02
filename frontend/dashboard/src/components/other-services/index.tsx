@@ -2,7 +2,7 @@ import RedirectCard from "../card/redirect";
 import LoanIcon from "@shared/images/Ícone empréstimo.png";
 import CardIcon from "@shared/images/Ícone cartões.png";
 import DonationIcon from "@shared/images/Ícone doações.png";
-import PixIcon from "@shared/images/Ícone Pix.png";
+import PixIcon from "@shared/images/Ícone Pix.svg";
 import InsuranceIcon from "@shared/images/Ícone seguros.png";
 import CellPhoneCreditIcon from "@shared/images/Ícone Recarga.png";
 

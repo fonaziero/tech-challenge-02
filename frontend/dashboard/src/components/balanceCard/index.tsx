@@ -1,11 +1,11 @@
 import PixelTop from "@shared/images/Pixels1TopRight.png";
 import PixelBottom from "@shared/images/Pixels2BottomLeft.png";
-import Cash from "@shared/images/Ilustração1.png";
+import Cash from "@shared/images/Ilustração1.svg";
 import { User } from "@shared/interfaces/user";
 import { getFormattedDate } from "@shared/utils/date";
 
 type BalanceCardProps = {
-  user: User;
+  user: User; 
 };
 
 export default function BalanceCard({ user }: BalanceCardProps) {

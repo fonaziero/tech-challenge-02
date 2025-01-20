@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import BannerModal from '../../../../assets/Ilustração cadastro.png';
+import BannerModal from '@shared/images/Ilustração cadastro.png';
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../UI/modal";
 import FormInput from "../../../UI/inputs/input";
-import { handleRequest } from "../../../../utils/fetch-api";
+import { handleRequest } from "@shared/utils/fetch-api";
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -51,19 +51,20 @@ const LoginModal: React.FC<LoginModalProps> = ({
                         'Authorization': `Bearer ${data.result.token}`,
                     },
                 })
-                console.log('userInfo')
-                console.log(userInfo)
-            }
-            // else {
+                const dataInfo = await userInfo.json();
+
                 localStorage.setItem('user', JSON.stringify({
-                    id: data.result.id,
-                    name: data.result.name,
-                    email: data.result.email,
-                    balance: data.result.balance,
+                    id: dataInfo.result.account[0].userId,
+                    accountId: dataInfo.result.account[0].id,
+                    name: dataInfo.result.cards[0].name,
+                    email: email,
+                    balance: +dataInfo.result.cards[0].cvc,
+                    transationType: dataInfo.result.cards[0].type,
+                    token: data.result.token
                 }));
                 onClose();
                 navigate('/dashboard');
-            // }
+            }
 
         } catch (err) {
             console.error('Erro ao fazer a requisição:', err);

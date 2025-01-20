@@ -5,7 +5,7 @@ export const getStoredUser = (router: any): User | null => {
     ? JSON.parse(localStorage.getItem("user") as string)
     : null;
   if (!storedUser) {
-    router.push("/");
+    router("/");
     return null;
   }
   return storedUser;

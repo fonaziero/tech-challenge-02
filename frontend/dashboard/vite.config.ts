@@ -2,12 +2,20 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '../shared/enviroments/.env') });
 
 export default defineConfig({
-  base: '/assets/',
   resolve: {
     alias: {
       '@shared': path.resolve(__dirname, '../shared'),
+      '@dashboard': path.resolve(__dirname, '../dashboard/src'),
+    },
+  },
+  define: {
+    'import.meta.env': {
+      ...process.env,
     },
   },
   plugins: [
@@ -23,13 +31,15 @@ export default defineConfig({
       },
       shared: [
         'react',
-        'react-dom'
+        'react-dom',
+        'react-router-dom',
       ],
     }),
   ],
   build: {
     target: 'esnext',
     minify: false,
+    assetsInlineLimit: 32768, 
   },
   server: {
     port: 3002,
