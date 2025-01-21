@@ -29,23 +29,21 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      # 4. Atualizar e configurar EC2
-      - name: Install and update EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
-          cd /home/ec2-user/tech-challenge-02
-          git pull origin main
-          sudo yum update -y
-          sudo yum install -y docker
-          sudo service docker start
-          EOF
-
-
-      # 5. Deploy da aplicação
+      # 4. Copiar arquivos para o EC2
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
-          cd /home/ec2-user/tech-challenge-02
-          docker-compose down || true
-          docker-compose up -d --build
+          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+            REPO_DIR="/home/ec2-user/tech-challenge-02" # Diretório do repositório
+
+            cd $REPO_DIR
+
+            git pull origin main
+
+            sudo yum update -y
+            sudo yum install -y docker
+            sudo service docker start
+
+            sudo docker system prune -f
+            docker-compose down || true
+            docker-compose up -d --build
           EOF
