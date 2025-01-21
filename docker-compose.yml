@@ -23,6 +23,7 @@ services:
     volumes:
       - ./frontend/host:/app/host
       - ./frontend/shared:/app/shared
+      - ./frontend/host/tailwind.config.js:/app/host/tailwind.config.js
 
   dashboard:
     build:

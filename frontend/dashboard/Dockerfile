@@ -1,3 +1,4 @@
+# Etapa 1: Construção
 FROM node:20 AS builder
 
 WORKDIR /app
@@ -11,10 +12,13 @@ COPY dashboard ./dashboard
 COPY shared ./shared
 COPY ./host/tailwind.config.js /app/dashboard/tailwind.config.js
 
-# Gerar o build
+# Compilar o Tailwind CSS
+RUN npx tailwindcss --config ./dashboard/tailwind.config.js -i ./dashboard/src/styles/tailwind.css -o ./dashboard/dist/styles.css
+
+# Gerar o build do dashboard
 RUN npm run build --prefix ./dashboard
 
-# Servir o build com Nginx
+# Etapa 2: Servir com Nginx
 FROM nginx:alpine
 
 COPY --from=builder /app/dashboard/dist /usr/share/nginx/html
