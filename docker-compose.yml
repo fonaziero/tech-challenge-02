@@ -23,6 +23,7 @@ services:
     volumes:
       - ./frontend/host:/app/host
       - ./frontend/shared:/app/shared
+      - ../dashboard/src:/app/dashboard-src
 
   dashboard:
     build:
