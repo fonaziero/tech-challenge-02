@@ -24,7 +24,7 @@ FROM nginx:alpine
 
 COPY --from=builder /app/dashboard/dist /usr/share/nginx/html
 
-EXPOSE 3001
+EXPOSE 3002
 
 COPY dashboard/nginx.conf /etc/nginx/conf.d/default.conf
 
