@@ -1,24 +1,28 @@
-# Etapa 1: Construção
 FROM node:20 AS builder
 
 WORKDIR /app
 
-# Copiar dependências específicas do dashboard
+# Copiar pacotes e instalar dependências
 COPY dashboard/package*.json ./dashboard/
 RUN npm install --prefix ./dashboard
 
-# Copiar somente a pasta `shared` e o restante dos arquivos do dashboard
+# Copiar os arquivos do dashboard e do shared
 COPY dashboard ./dashboard
 COPY shared ./shared
+
+# Copiar a configuração do Tailwind para o dashboard
 COPY ./host/tailwind.config.js /app/dashboard/tailwind.config.js
 
-# Compilar o Tailwind CSS
-RUN npx tailwindcss --config ./dashboard/tailwind.config.js -i ./dashboard/src/styles/tailwind.css -o ./dashboard/dist/styles.css
+# Garantir que o arquivo Tailwind existe
+RUN mkdir -p /app/dashboard/src/styles && echo "@tailwind base; @tailwind components; @tailwind utilities;" > /app/dashboard/src/styles/tailwind.css
 
-# Gerar o build do dashboard
+# Compilar TailwindCSS
+RUN npx tailwindcss --config /app/dashboard/tailwind.config.js -i /app/dashboard/src/styles/tailwind.css -o /app/dashboard/dist/styles.css
+
+# Build do dashboard
 RUN npm run build --prefix ./dashboard
 
-# Etapa 2: Servir com Nginx
+# Servir com Nginx
 FROM nginx:alpine
 
 COPY --from=builder /app/dashboard/dist /usr/share/nginx/html
