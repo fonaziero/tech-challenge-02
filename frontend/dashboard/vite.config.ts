@@ -13,6 +13,9 @@ export default defineConfig({
       '@dashboard': path.resolve(__dirname, '../dashboard/src'),
     },
   },
+  css: {
+    postcss: path.resolve(__dirname, './postcss.config.js'),
+  },
   define: {
     'import.meta.env': {
       ...process.env,
