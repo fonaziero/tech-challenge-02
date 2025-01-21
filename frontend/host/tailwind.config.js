@@ -1,4 +1,5 @@
-const sharedConfig = require("../../shared/tailwind/tailwind.config");
+const path = require('path');
+const sharedConfig = require(path.resolve(__dirname, '../shared/tailwind/tailwind.config'));
 
 module.exports = {
     ...sharedConfig,

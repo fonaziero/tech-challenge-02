@@ -33,6 +33,8 @@ services:
     volumes:
       - ./frontend/dashboard:/app/dashboard
       - ./frontend/shared:/app/shared
+    working_dir: /app/dashboard
+    command: npm run build
 
   shared:
     image: node:20-alpine

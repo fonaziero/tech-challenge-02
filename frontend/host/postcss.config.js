@@ -1,5 +1,9 @@
-const sharedPostCSS = require("../../shared/tailwind/postcss.config");
+const path = require('path');
+const tailwindConfig = path.resolve(__dirname, '../shared/tailwind/tailwind.config');
 
 module.exports = {
-    ...sharedPostCSS,
+  plugins: {
+    tailwindcss: { config: tailwindConfig },
+    autoprefixer: {},
+  },
 };
