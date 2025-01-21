@@ -1,13 +1,9 @@
-const path = require('path');
-
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     '../dashboard/src/**/*.{js,ts,jsx,tsx}',
     '/app/host/src/**/*.{js,ts,jsx,tsx}',
     '/app/dashboard/src/**/*.{js,ts,jsx,tsx}',
-    path.resolve(__dirname, '../../host/src/**/*.{js,jsx,ts,tsx}'),
-    path.resolve(__dirname, '../../dashboard/src/**/*.{js,jsx,ts,tsx}'),
   ],
   theme: {
     extend: {

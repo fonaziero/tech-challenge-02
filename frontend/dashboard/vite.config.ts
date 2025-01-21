@@ -4,9 +4,6 @@ import federation from '@originjs/vite-plugin-federation';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-
 dotenv.config({ path: path.resolve(__dirname, '../shared/enviroments/.env') });
 
 export default defineConfig({
@@ -17,8 +14,10 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: {
-      plugins: [tailwindcss('./tailwind.config.js'), autoprefixer()],
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/global.css";`, // Se usar variáveis globais do Tailwind
+      },
     },
   },
   define: {
@@ -47,7 +46,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
     minify: false,
-    assetsInlineLimit: 32768, 
+    assetsInlineLimit: 32768,
   },
   server: {
     port: 3002,
