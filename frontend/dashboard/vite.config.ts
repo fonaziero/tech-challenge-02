@@ -43,5 +43,10 @@ export default defineConfig({
   },
   server: {
     port: 3002,
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    },
   },
 });
