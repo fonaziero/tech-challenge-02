@@ -10,17 +10,6 @@ RUN npm install --prefix ./dashboard
 COPY dashboard ./dashboard
 COPY shared ./shared
 
-# Copiar a configuração do Tailwind para o dashboard
-COPY ./host/tailwind.config.js /app/dashboard/tailwind.config.js
-
-# Garantir que o arquivo Tailwind existe
-RUN mkdir -p /app/dashboard/src/styles && echo "@tailwind base; @tailwind components; @tailwind utilities;" > /app/dashboard/src/styles/tailwind.css
-
-# Compilar TailwindCSS
-RUN npx tailwindcss --config /app/dashboard/tailwind.config.js \
-    -i /app/dashboard/src/styles/tailwind.css \
-    -o /app/dashboard/dist/styles.css
-
 # Build do dashboard
 RUN npm run build --prefix ./dashboard
 
