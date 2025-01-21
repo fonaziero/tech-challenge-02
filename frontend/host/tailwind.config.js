@@ -1,6 +1,8 @@
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
+    "../dashboard/src/**/*.{js,ts,jsx,tsx}",
+    "/app/dashboard/src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {

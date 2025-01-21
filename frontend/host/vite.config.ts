@@ -25,7 +25,7 @@ export default defineConfig({
       name: 'host',
       filename: 'remoteEntry.js',
       remotes: {
-        dashboard: 'http://localhost:3002/assets/remoteEntry.js',
+        dashboard: 'http://35.175.148.191:3002/assets/remoteEntry.js',
       },
       exposes: {
         './Button': './src/components/UI/buttons/button/button',
@@ -51,5 +51,6 @@ export default defineConfig({
   },
   server: {
     port: 3001,
+    cors: true
   },
 });
