@@ -40,7 +40,6 @@ export default defineConfig({
         'react',
         'react-dom',
         'react-router-dom',
-        'tailwindcss'
       ],
     }),
   ],

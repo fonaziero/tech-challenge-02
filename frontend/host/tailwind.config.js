@@ -1,12 +1,9 @@
-const path = require('path');
-
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     // '../dashboard/src/**/*.{js,ts,jsx,tsx}',
     '/app/host/src/**/*.{js,ts,jsx,tsx}',
     '/app/dashboard/src/**/*.{js,ts,jsx,tsx}',
-    './{src,pages,components,app,dashboard}/**/*.{ts,tsx,html}',
   ],
   theme: {
     extend: {
