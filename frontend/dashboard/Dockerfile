@@ -26,7 +26,7 @@ COPY --from=builder /app/dashboard/dist /usr/share/nginx/html
 COPY dashboard/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expor a porta configurada
-EXPOSE 3001
+EXPOSE 3002
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
