@@ -4,6 +4,9 @@ import federation from '@originjs/vite-plugin-federation';
 import path from 'path';
 import dotenv from 'dotenv';
 
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 dotenv.config({ path: path.resolve(__dirname, '../shared/enviroments/.env') });
 
 export default defineConfig({
@@ -14,7 +17,9 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: path.resolve(__dirname, './postcss.config.js'),
+    postcss: {
+      plugins: [tailwindcss('./tailwind.config.js'), autoprefixer()],
+    },
   },
   define: {
     'import.meta.env': {

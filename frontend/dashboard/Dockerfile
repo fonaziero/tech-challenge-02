@@ -17,7 +17,9 @@ COPY ./host/tailwind.config.js /app/dashboard/tailwind.config.js
 RUN mkdir -p /app/dashboard/src/styles && echo "@tailwind base; @tailwind components; @tailwind utilities;" > /app/dashboard/src/styles/tailwind.css
 
 # Compilar TailwindCSS
-RUN npx tailwindcss --config /app/dashboard/tailwind.config.js -i /app/dashboard/src/styles/tailwind.css -o /app/dashboard/dist/styles.css
+RUN npx tailwindcss --config /app/dashboard/tailwind.config.js \
+    -i /app/dashboard/src/styles/tailwind.css \
+    -o /app/dashboard/dist/styles.css
 
 # Build do dashboard
 RUN npm run build --prefix ./dashboard
