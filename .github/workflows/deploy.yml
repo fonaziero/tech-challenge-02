@@ -30,29 +30,24 @@ jobs:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
       # 4. Copiar arquivos para o EC2
-- name: Deploy to EC2
-  run: |
-    ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
-      REPO_DIR="/home/ec2-user/tech-challenge-02" # Diretório do repositório
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+            REPO_DIR="/home/ec2-user/tech-challenge-02" # Diretório do repositório
 
-      # Clone o repositório se ainda não existir
-      if [ ! -d "$REPO_DIR/.git" ]; then
-        git clone https://github.com/fonaziero/tech-challenge-02.git $REPO_DIR
-      fi
+            # Acesse o diretório do repositório
+            cd $REPO_DIR
 
-      # Navegue até o diretório do repositório
-      cd $REPO_DIR
+            # Atualize o repositório
+            git pull origin main
 
-      # Atualize o repositório
-      git pull origin main
+            # Instale e inicie o Docker
+            sudo yum update -y
+            sudo yum install -y docker
+            sudo service docker start
 
-      # Instalar e iniciar o Docker
-      sudo yum update -y
-      sudo yum install -y docker
-      sudo service docker start
-
-      # Limpar containers antigos e executar o docker-compose
-      sudo docker system prune -f
-      docker-compose down || true
-      docker-compose up -d --build
-    EOF
+            # Limpe containers antigos e execute o docker-compose
+            sudo docker system prune -f
+            docker-compose down || true
+            docker-compose up -d --build
+          EOF
