@@ -36,6 +36,8 @@ jobs:
             sudo yum update -y
             sudo yum install -y docker
             sudo service docker start
+            sudo cd tech-challenge-02
+            git pull https://github.com/fonaziero/tech-challenge-02.git
             sudo docker system prune -f
             docker-compose down || true
             docker-compose up -d --build
