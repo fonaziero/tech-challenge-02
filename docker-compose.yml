@@ -23,7 +23,6 @@ services:
     volumes:
       - ./frontend/host:/app/host
       - ./frontend/shared:/app/shared
-      - ./frontend/host/tailwind.config.js:/app/host/tailwind.config.js
 
   dashboard:
     build:
@@ -34,7 +33,6 @@ services:
     volumes:
       - ./frontend/dashboard:/app/dashboard
       - ./frontend/shared:/app/shared
-      - ./frontend/host/tailwind.config.js:/app/dashboard/tailwind.config.js
 
   shared:
     image: node:20-alpine
