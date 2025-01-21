@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from "./components/main";
-import './styles/tailwind.css'
 
 const NotFoundModule = await import('host/NotFound');
 const NotFound = NotFoundModule.default;
