@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: AWS 
+    environment: AWS
 
     steps:
       # 1. Checkout do código
@@ -32,22 +32,46 @@ jobs:
       # 4. Copiar arquivos para o EC2
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=300 ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+            set -e
+
+            echo "Conectando ao servidor EC2..."
+
             REPO_DIR="/home/ec2-user/tech-challenge-02" # Diretório do repositório
 
-            # Acesse o diretório do repositório
-            cd $REPO_DIR
+            # Instalar dependências se necessário
+            echo "Verificando dependências..."
+            if ! command -v docker &> /dev/null; then
+              echo "Docker não encontrado. Instalando Docker..."
+              sudo yum update -y
+              sudo yum install -y docker
+              sudo service docker start
+              sudo systemctl enable docker
+            fi
 
-            # Atualize o repositório
+            if ! command -v docker-compose &> /dev/null; then
+              echo "Docker Compose não encontrado. Instalando Docker Compose..."
+              sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+            fi
+
+            # Preparar repositório
+            echo "Preparando repositório..."
+            if [ ! -d "$REPO_DIR" ]; then
+              echo "Diretório não encontrado. Clonando o repositório..."
+              git clone https://github.com/fonaziero/tech-challenge-02.git $REPO_DIR
+            fi
+
+            cd $REPO_DIR
+            echo "Atualizando repositório..."
+            git reset --hard
             git pull origin main
 
-            # Instale e inicie o Docker
-            sudo yum update -y
-            sudo yum install -y docker
-            sudo service docker start
-
-            # Limpe containers antigos e execute o docker-compose
-            sudo docker system prune -f
+            # Rodar Docker Compose
+            echo "Executando docker-compose..."
+            sudo docker system prune -f -a
             docker-compose down || true
             docker-compose up -d --build
+
+            echo "Deploy concluído com sucesso!"
           EOF

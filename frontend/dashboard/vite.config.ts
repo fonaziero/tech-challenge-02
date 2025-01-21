@@ -31,7 +31,7 @@ export default defineConfig({
       name: 'dashboard',
       filename: 'remoteEntry.js',
       remotes: {
-        host: 'http://35.175.148.191:3001/assets/remoteEntry.js'
+        host: 'http://54.86.79.191:3001/assets/remoteEntry.js'
       },
       exposes: {
         './DashboardApp': './src/App',
@@ -52,7 +52,7 @@ export default defineConfig({
   server: {
     port: 3002,
     cors: {
-      origin: 'http://35.175.148.191:3001',
+      origin: 'http://54.86.79.191:3001',
       methods: ['GET', 'POST', 'OPTIONS'],
       allowedHeaders: ['Origin', 'Content-Type', 'Accept'],
     },
