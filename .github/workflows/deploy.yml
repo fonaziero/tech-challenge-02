@@ -39,10 +39,6 @@ jobs:
 
             git pull origin main
 
-            sudo yum update -y
-            sudo yum install -y docker
-            sudo service docker start
-
             sudo docker system prune -f
             docker-compose down || true
             docker-compose up -d --build
