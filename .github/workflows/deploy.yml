@@ -32,7 +32,7 @@ jobs:
       # 4. Copiar arquivos para o EC2
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=120 ec2-user@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
             REPO_DIR="/home/ec2-user/tech-challenge-02" # Diretório do repositório
 
             cd $REPO_DIR
