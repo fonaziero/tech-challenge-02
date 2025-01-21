@@ -3,6 +3,7 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "../dashboard/src/**/*.{js,ts,jsx,tsx}",
     "/app/dashboard/src/**/*.{js,ts,jsx,tsx}",
+    "/home/ec2-user/tech-challenge-02"
   ],
   theme: {
     extend: {
