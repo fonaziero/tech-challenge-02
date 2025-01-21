@@ -9,6 +9,7 @@ RUN npm install --prefix ./dashboard
 # Copiar somente a pasta `shared` e o restante dos arquivos do dashboard
 COPY dashboard ./dashboard
 COPY shared ./shared
+COPY ./host/tailwind.config.js /app/dashboard/tailwind.config.js
 
 # Gerar o build
 RUN npm run build --prefix ./dashboard
